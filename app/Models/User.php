@@ -34,6 +34,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'verified' => 'boolean',
         ];
     }
 
@@ -156,6 +157,16 @@ public function clients()
     return $this->belongsToMany(User::class, 'mentor_mentee', 'mentor_id', 'mentee_id');
 }
 
+
+/**
+ * Get profile photo URL.
+ */
+public function getProfilePhotoUrlAttribute()
+{
+    return "https://ui-avatars.com/api/?name=" . urlencode($this->name) . "&color=7F9CF5&background=EBF4FF";
+}
+
+protected $appends = ['profile_photo_url'];
 
 }
 

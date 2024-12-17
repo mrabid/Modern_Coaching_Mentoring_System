@@ -111,5 +111,45 @@ public function showMenteeSessions(User $mentee): View
         return view('mentor.mentee-sessions', compact('mentee', 'sessions'));
     }
 
+/**
+ * Display a listing of all mentors for admin.
+ */
+public function adminIndex(Request $request): View
+{   
+    // Query mentors (users with mentor role)
+    $query = User::where('role', 'mentor')
+        ->withCount('clients'); // Count mentees/clients for each mentor
+
+    // Search functionality
+    if ($request->has('search')) {
+        $searchTerm = $request->search;
+        $query->where(function($q) use ($searchTerm) {
+            $q->where('name', 'like', "%{$searchTerm}%")
+              ->orWhere('email', 'like', "%{$searchTerm}%");
+        });
+    }
+
+    // Sorting
+    $sort = $request->sort ?? 'name';
+    $direction = $request->direction ?? 'asc';
+    $query->orderBy($sort, $direction);
+
+    // Get mentors with pagination
+    $mentors = $query->paginate(10);
+
+    // Get some basic stats
+    $totalMentors = User::where('role', 'mentor')->count();
+    $totalActiveMentors = User::where('role', 'mentor')
+        ->whereHas('clients')
+        ->count();
+
+    return view('dashboard.admin.mentors.index', compact('mentors', 'totalMentors', 'totalActiveMentors'));
+}
+
+public function show(User $mentor): View
+{
+    return view('dashboard.admin.mentors.show', compact('mentor'));
+}
+
 
 }

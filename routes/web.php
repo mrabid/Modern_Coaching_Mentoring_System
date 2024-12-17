@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\MenteeController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Auth;  // Added Auth facade
 
 Route::get('/', function () {
@@ -43,7 +45,24 @@ Route::middleware('auth')->group(function () {
 * Only keeping routes for mentee and admin dashboards here
 */
 Route::middleware(['auth', 'mentee'])->get('/mentee/dashboard', [DashboardController::class, 'mentee'])->name('mentee.dashboard');
-Route::middleware(['auth', 'admin'])->get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+   // Admin dashboard route
+   Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
+   
+   // Route for viewing all mentors
+   Route::get('/admin/mentors', [MentorController::class, 'adminIndex'])->name('admin.mentors.index');
+
+   Route::get('/admin/mentors/{mentor}', [MentorController::class, 'show'])->name('admin.mentors.show');
+
+   Route::get('/admin/mentees', [MenteeController::class, 'adminIndex'])->name('admin.mentees.index');
+   Route::get('/admin/mentees/{mentee}', [MenteeController::class, 'show'])->name('admin.mentees.show');
+
+   Route::get('/admin/sessions', [SessionController::class, 'adminIndex'])->name('admin.sessions.index');
+    Route::get('/admin/sessions/{session}', [SessionController::class, 'show'])->name('admin.sessions.show');
+
+});
 
 /**
 * Key Change #3: Kept the mentor routes group that uses MentorController 

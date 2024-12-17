@@ -114,8 +114,8 @@
                                 <div>
                                     
                                 </div>
-                                <button class="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-sm hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-400 dark:hover:bg-blue-800">
-                                    View All →
+                                <button onclick="window.location.href='{{ route('admin.mentors.index') }}'" class="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-sm hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-400 dark:hover:bg-blue-800">
+                                View All →
                                 </button>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                                 <div>
                                    
                                 </div>
-                                <button class="bg-green-50 text-green-600 px-3 py-1 rounded-lg text-sm hover:bg-green-100 dark:bg-green-900 dark:text-green-400 dark:hover:bg-green-800">
+                                <button onclick="window.location.href='{{ route('admin.mentees.index') }}'" class="bg-green-50 text-green-600 px-3 py-1 rounded-lg text-sm hover:bg-green-100 dark:bg-green-900 dark:text-green-400 dark:hover:bg-green-800">
                                     View All →
                                 </button>
                             </div>
@@ -166,7 +166,7 @@
                                 <div>
                                     
                                 </div>
-                                <button class="bg-purple-50 text-purple-600 px-3 py-1 rounded-lg text-sm hover:bg-purple-100 dark:bg-purple-900 dark:text-purple-400 dark:hover:bg-purple-800">
+                                <button onclick="window.location.href='{{ route('admin.sessions.index') }}'" class="bg-purple-50 text-purple-600 px-3 py-1 rounded-lg text-sm hover:bg-purple-100 dark:bg-purple-900 dark:text-purple-400 dark:hover:bg-purple-800">
                                     View All →
                                 </button>
                             </div>

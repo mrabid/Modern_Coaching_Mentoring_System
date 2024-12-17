@@ -97,55 +97,79 @@
             </script>
 
 
-           <!-- Invite Mentees Section -->
-<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-xl p-6 ">
-    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Available Mentees</h3>
-    <p class="text-gray-600 dark:text-gray-400 mb-6">
-        Here is a list of mentees you can invite to be your clients. Click "Coach" to add them to your mentees.
-    </p>
-
-    <div class="space-y-4">
-        @forelse($availableMentees as $mentee)
-        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+           <!-- Available Mentees Section -->
+<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-xl">
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
             <div>
-                <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ $mentee->name }}</h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">{{ $mentee->email }}</p>
-            </div>
-            <form method="POST" action="{{ route('mentor.coach', $mentee->id) }}">
-                @csrf
-                <x-primary-button>
-                    {{ __('Start Mentoring') }}
-                </x-primary-button>
-            </form>
-        </div>
-        @empty
-        <p class="text-gray-600 dark:text-gray-400">No available mentees to coach at this time.</p>
-        @endforelse
-    </div>
-
-    <!-- Pagination Navigation -->
-    @if($availableMentees->hasPages())
-        <div class="mt-6 flex justify-between items-center border-t border-gray-200 dark:border-gray-600 pt-4">
-            <div class="flex justify-start">
-                @if($availableMentees->onFirstPage())
-                    <span class="px-4 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 rounded-md cursor-not-allowed">Previous</span>
-                @else
-                    <a href="{{ $availableMentees->previousPageUrl() }}" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-semibold transition">Previous</a>
-                @endif
-
-                @if($availableMentees->hasMorePages())
-                    <a href="{{ $availableMentees->nextPageUrl() }}" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-semibold transition ml-3">Next</a>
-                @endif
-            </div>
-            
-            <div>
-                <p class="text-sm text-gray-700 dark:text-gray-300">
-                    Showing {{ $availableMentees->firstItem() }} to {{ $availableMentees->lastItem() }}
-                    of {{ $availableMentees->total() }} mentees
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Available Mentees</h3>
+                <p class="text-gray-600 dark:text-gray-400 mt-1">
+                    Here is a list of mentees you can invite to be your clients.
                 </p>
             </div>
         </div>
-    @endif
+
+        <!-- Mentees Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-900">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                    @forelse($availableMentees as $mentee)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full" src="{{ $mentee->profile_photo_url }}" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            {{ $mentee->name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900 dark:text-gray-100">{{ $mentee->email }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Available
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <form method="POST" action="{{ route('mentor.coach', $mentee->id) }}" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                        Start Mentoring
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-center">
+                                No available mentees to coach at this time.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        @if($availableMentees->hasPages())
+            <div class="mt-6">
+                {{ $availableMentees->links() }}
+            </div>
+        @endif
+    </div>
 </div>
 
 
