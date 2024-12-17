@@ -92,13 +92,13 @@ class User extends Authenticatable
         return $this->hasMany(Goal::class, 'mentee_id');
     }
 
-        /**
-     * Relationship: Mentor's clients (mentees).
-     */
-    public function clients()
-    {
-        return $this->belongsToMany(User::class, 'mentor_mentee', 'mentor_id', 'mentee_id');
-    }
+    //     /**
+    //  * Relationship: Mentor's clients (mentees).
+    //  */
+    // public function clients()
+    // {
+    //     return $this->belongsToMany(User::class, 'mentor_mentee', 'mentor_id', 'mentee_id');
+    // }
 
     /**
      * Relationship: Mentee's mentor.
@@ -139,6 +139,23 @@ public function isMentee()
 {
     return $this->role === 'mentee';
 }
+
+
+public function sessionsAsMentor()
+{
+    return $this->hasMany(Appt::class, 'mentor_id');
+}
+
+public function sessionsAsMentee()
+{
+    return $this->hasMany(Appt::class, 'mentee_id');
+}
+
+public function clients()
+{
+    return $this->belongsToMany(User::class, 'mentor_mentee', 'mentor_id', 'mentee_id');
+}
+
 
 }
 

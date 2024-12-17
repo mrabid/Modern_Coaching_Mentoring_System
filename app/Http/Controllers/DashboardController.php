@@ -40,13 +40,19 @@ class DashboardController extends Controller
         return view('dashboard.mentor');
     }
 
-    /**
-     * Display the Mentee Dashboard.
-     */
-    public function mentee()
-    {
-        return view('dashboard.mentee');
-    }
+public function mentee()
+{
+    $mentee = Auth::user();
+
+    // Fetch upcoming sessions for this mentee
+    $upcomingSessions = Appt::where('mentee_id', $mentee->id)
+        ->where('start_time', '>', now())
+        ->orderBy('start_time')
+        ->get();
+
+    return view('dashboard.mentee', compact('upcomingSessions'));
+}
+
 
     /**
      * Display the Admin Dashboard.
@@ -68,4 +74,5 @@ class DashboardController extends Controller
             'recentActivities'
         ));
     }
+
 }

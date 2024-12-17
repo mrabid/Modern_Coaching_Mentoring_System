@@ -6,7 +6,9 @@
                 <!-- Logo Section -->
             <div class="shrink-0 flex items-center">
                 <!-- <a href="{{ route('dashboard') }}"> -->
-                    <div class=" text-3xl text-white border px-2">
+                    <div class="text-3xl dark:text-white text-black border border-black dark:border-white px-2">
+
+
 M
                     </div>
                 <!-- </a> -->

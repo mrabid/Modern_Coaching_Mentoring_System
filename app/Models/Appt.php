@@ -23,19 +23,14 @@ class Appt extends Model
         'end_time' => 'datetime',
     ];
 
-    /**
-     * Define the relationship with the mentor.
-     */
     public function mentor()
-    {
-        return $this->belongsTo(User::class, 'mentor_id');
-    }
+{
+    return $this->belongsTo(User::class, 'mentor_id');
+}
 
-    /**
-     * Define the relationship with the mentee.
-     */
-    public function mentee()
-    {
-        return $this->belongsTo(User::class, 'mentee_id');
-    }
+public function mentee()
+{
+    return $this->belongsTo(User::class, 'mentee_id');
+}
+
 }

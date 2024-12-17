@@ -12,14 +12,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            AdminSeeder::class,
-        ]);
+        // $this->call([
+        //     AdminSeeder::class,
+        // ]);
 
-        // Your existing seed code can stay
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // // Your existing seed code can stay
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+        for ($i = 0; $i < 1000; $i++) {
+            $data = \App\Models\User::factory()->make()->toArray();
+            $data['password'] = bcrypt('password'); // Add password here
+
+
+            User::firstOrCreate(
+                ['email' => $data['email']], // Check for duplicate email
+                $data // If not found, use this data to create a new user
+            );
+        }
     }
 }

@@ -42,6 +42,39 @@
                         </div>
                     </div>
 
+                    <div class="mb-6">
+    <label for="session_details" class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        Session Details & Resources
+    </label>
+    <div class="mt-1">
+        <div class="relative">
+            <div class="flex rounded-md shadow-sm">
+                <textarea
+                    id="session_details"
+                    name="session_details"
+                    rows="6"
+                    class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-3 
+                           text-gray-700 dark:text-gray-300 dark:bg-gray-700 
+                           focus:border-indigo-500 focus:ring-indigo-500 
+                           placeholder:text-gray-400 dark:placeholder:text-gray-400 
+                           sm:text-sm"
+                    placeholder="• Add session agenda&#10;• Include relevant website links&#10;• List learning resources&#10;• Share preparation materials"
+                ></textarea>
+            </div>
+        </div>
+        <div class="mt-3 flex items-start space-x-2">
+            <svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                Add details about the session, including any preparation materials, links to resources, 
+                or specific topics to be covered. Markdown formatting is supported.
+            </p>
+        </div>
+    </div>
+</div>
+
                     <div class="flex justify-end">
                         <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition transform hover:scale-105">
                             Create Session

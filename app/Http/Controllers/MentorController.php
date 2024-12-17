@@ -18,24 +18,25 @@ class MentorController extends Controller
     * Display mentor dashboard with available mentees and upcoming sessions.
     */
    public function index(): View
-   {
-       $mentor = Auth::user();
+{
+    $mentor = Auth::user();
 
-       // Fetch mentees who are not yet clients of this mentor
-       $availableMentees = User::where('role', 'mentee')
-           ->whereDoesntHave('mentor', function ($query) use ($mentor) {
-               $query->where('mentor_id', $mentor->id);
-           })
-           ->get();
+    // Fetch mentees who are not yet clients of this mentor with pagination
+    $availableMentees = User::where('role', 'mentee')
+        ->whereDoesntHave('mentor', function ($query) use ($mentor) {
+            $query->where('mentor_id', $mentor->id);
+        })
+        ->paginate(5);
 
-       // Fetch upcoming sessions for this mentor
-       $upcomingSessions = Appt::where('mentor_id', $mentor->id)
-           ->where('start_time', '>', now())
-           ->orderBy('start_time')
-           ->get();
+    // Fetch upcoming sessions for this mentor
+    $upcomingSessions = Appt::where('mentor_id', $mentor->id)
+        ->where('start_time', '>', now())
+        ->orderBy('start_time')
+        ->get();
 
-       return view('dashboard.mentor', compact('availableMentees', 'upcomingSessions'));
-   }
+    return view('dashboard.mentor', compact('availableMentees', 'upcomingSessions'));
+}
+
 
    /**
     * Assign a mentee to the mentor as a client.
@@ -88,4 +89,27 @@ class MentorController extends Controller
        return redirect()->route('mentor.dashboard')
            ->with('status', 'Session successfully created.');
    }
+
+
+
+
+public function showMenteeSessions(User $mentee): View
+    {
+        $mentor = Auth::user();
+
+        // Check if the mentee belongs to the mentor's clients
+        if (!$mentor->clients()->where('id', $mentee->id)->exists()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Fetch the sessions for the mentee
+        $sessions = Appt::where('mentor_id', $mentor->id)
+            ->where('mentee_id', $mentee->id)
+            ->orderBy('start_time', 'asc')
+            ->get();
+
+        return view('mentor.mentee-sessions', compact('mentee', 'sessions'));
+    }
+
+
 }

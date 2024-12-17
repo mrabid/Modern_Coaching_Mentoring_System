@@ -59,6 +59,14 @@ Route::middleware(['auth', 'mentor'])->group(function () {
    Route::post('/mentor/session/store', [MentorController::class, 'storeSession'])->name('mentor.session.store');
 });
 
+
+Route::middleware('auth')->group(function () {
+    Route::get('/mentor/mentee/{mentee}/sessions', [MentorController::class, 'showMenteeSessions'])
+        ->name('mentor.mentee.sessions');
+});
+
+
+
 /**
 * After these changes:
 * - Mentors will go to their dashboard with all features (available mentees, sessions, etc.)
