@@ -40,7 +40,7 @@ class User extends Authenticatable
 
     /**
      * Relationship with Notes.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function notes()
@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     /**
      * Relationship with Journal Entries.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function journals()
@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     /**
      * Relationship with Reviews as a Mentor (being reviewed).
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function mentorReviews()
@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     /**
      * Relationship with Reviews as a Mentee (giving reviews).
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function menteeReviews()
@@ -85,7 +85,7 @@ class User extends Authenticatable
 
     /**
      * Relationship with Goals if user is a mentee.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function goals()
@@ -111,63 +111,61 @@ class User extends Authenticatable
 
 
     /**
- * Get the sessions where the user is a mentor.
- */
-public function mentorSessions()
-{
-    return $this->hasMany(Appt::class, 'mentor_id');
+     * Get the sessions where the user is a mentor.
+     */
+    public function mentorSessions()
+    {
+        return $this->hasMany(Appt::class, 'mentor_id');
+    }
+
+    /**
+     * Get the sessions where the user is a mentee.
+     */
+    public function menteeSessions()
+    {
+        return $this->hasMany(Appt::class, 'mentee_id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isMentor()
+    {
+        return $this->role === 'mentor';
+    }
+
+    public function isMentee()
+    {
+        return $this->role === 'mentee';
+    }
+
+
+    public function sessionsAsMentor()
+    {
+        return $this->hasMany(Appt::class, 'mentor_id');
+    }
+
+    public function sessionsAsMentee()
+    {
+        return $this->hasMany(Appt::class, 'mentee_id');
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(User::class, 'mentor_mentee', 'mentor_id', 'mentee_id');
+    }
+
+
+    /**
+     * Get profile photo URL.
+     */
+    public function getProfilePhotoUrlAttribute()
+    {
+        return "https://ui-avatars.com/api/?name=" . urlencode($this->name) . "&color=7F9CF5&background=EBF4FF";
+    }
+
+    // protected $appends = ['profile_photo_url'];
+
 }
-
-/**
- * Get the sessions where the user is a mentee.
- */
-public function menteeSessions()
-{
-    return $this->hasMany(Appt::class, 'mentee_id');
-}
-
-public function isAdmin()
-{
-    return $this->role === 'admin';
-}
-
-public function isMentor()
-{
-    return $this->role === 'mentor';
-}
-
-public function isMentee()
-{
-    return $this->role === 'mentee';
-}
-
-
-public function sessionsAsMentor()
-{
-    return $this->hasMany(Appt::class, 'mentor_id');
-}
-
-public function sessionsAsMentee()
-{
-    return $this->hasMany(Appt::class, 'mentee_id');
-}
-
-public function clients()
-{
-    return $this->belongsToMany(User::class, 'mentor_mentee', 'mentor_id', 'mentee_id');
-}
-
-
-/**
- * Get profile photo URL.
- */
-public function getProfilePhotoUrlAttribute()
-{
-    return "https://ui-avatars.com/api/?name=" . urlencode($this->name) . "&color=7F9CF5&background=EBF4FF";
-}
-
-protected $appends = ['profile_photo_url'];
-
-}
-
-
