@@ -9,13 +9,7 @@ class Appt extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'mentor_id',
-        'mentee_id',
-        'start_time',
-        'end_time',
-        'status',
-    ];
+    protected $guarded = [];
 
     // Cast the start_time and end_time fields to datetime
     protected $casts = [
@@ -24,13 +18,12 @@ class Appt extends Model
     ];
 
     public function mentor()
-{
-    return $this->belongsTo(User::class, 'mentor_id');
-}
+    {
+        return $this->belongsTo(User::class, 'mentor_id');
+    }
 
-public function mentee()
-{
-    return $this->belongsTo(User::class, 'mentee_id');
-}
-
+    public function mentee()
+    {
+        return $this->belongsTo(User::class, 'mentee_id');
+    }
 }
