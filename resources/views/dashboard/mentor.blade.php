@@ -177,26 +177,40 @@
           <!-- Upcoming Sessions Section -->
 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-xl p-6">
     <div class="flex w-full justify-between mb-4">
-        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Upcoming Sessions</h3>
-        <a href="{{ route('mentor.session.create') }}" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-semibold transition mb-2">Add New Session</a>
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">📅 Upcoming Sessions</h3>
+        <a href="{{ route('mentor.session.create') }}" 
+           class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-semibold transition">
+            Add New Session
+        </a>
     </div>
 
-<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg p-6 transition duration-300 hover:shadow-xl">
-    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">📅 Upcoming Sessions</h3>
-
-    @if($upcomingSessions->isEmpty())
+    @if ($upcomingSessions->isEmpty())
         <p class="text-gray-600 dark:text-gray-400 mt-4">No upcoming sessions scheduled.</p>
     @else
-        <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-400 list-disc list-inside">
+        <ul class="mt-4 space-y-4">
             @foreach ($upcomingSessions as $session)
-                <li>
-                    Session with {{ $session->mentee->name }} 
-                    on {{ \Carbon\Carbon::parse($session->start_time)->format('F jS, Y \a\t g:i A') }}
+                <li class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow border">
+                    <div class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                        Session with {{ $session->mentee->name }}
+                    </div>
+                    <div class="mt-1 text-gray-500 dark:text-gray-400">
+                        <span class="font-medium">Date:</span>
+                        {{ \Carbon\Carbon::parse($session->start_time)->format('F jS, Y') }}
+                    </div>
+                    <div class="text-gray-500 dark:text-gray-400">
+                        <span class="font-medium">Time:</span>
+                        {{ \Carbon\Carbon::parse($session->start_time)->format('g:i A') }}
+                    </div>
+                    <div class="text-gray-500 dark:text-gray-400">
+                        <span class="font-medium">Duration:</span> {{ $session->duration }} minutes
+                    </div>
+                    <div class="mt-2 text-gray-600 dark:text-gray-300">
+                        <span class="font-medium">Resource:</span> {{ $session->session_details }}
+                    </div>
                 </li>
             @endforeach
         </ul>
     @endif
-</div>
 </div>
 
 

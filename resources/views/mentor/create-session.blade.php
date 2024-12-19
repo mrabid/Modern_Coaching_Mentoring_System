@@ -13,9 +13,23 @@
                 class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg p-8 transition-all hover:shadow-xl">
                 <form method="POST" action="{{ route('mentor.session.store') }}">
                     @csrf
+
+                    <!-- Add the error messages right here -->
+                    @if ($errors->any())
+                        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+
                     <!-- Mentee Selection -->
                     <div class="mb-6">
-                        <label for="mentee_id" class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="mentee_id"
+                            class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
                             Select Mentee:
                         </label>
                         <select id="mentee_id" name="mentee_id"

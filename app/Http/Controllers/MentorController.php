@@ -73,8 +73,8 @@ class MentorController extends Controller
             'mentee_id' => 'required|exists:users,id',
             'start_time' => 'required|date|after:now',
             'end_time' => 'required|date|after:start_time',
-            'duration' => 'required|integer|min:15|max:120',
-            'session_details' => 'required|string|max:255',
+            'duration' => 'required|integer|min:5',
+            'session_details' => 'required|string|max:1000',
 
         ]);
 
